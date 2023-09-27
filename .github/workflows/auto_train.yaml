@@ -18,12 +18,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build . -f Dockerfile -t my-image-name:$(date +%s)
+          docker build . -f Dockerfile -t my-image-name
 
       - name: Create and start Docker container
         run: |
-          docker run --name my_training_pipeline -d my-image-name:$(date +%s)
-
+          docker run --name my_training_pipeline -d my-image-name
       - name: Run Python scripts in Docker container
         run: |
           docker exec my_training_pipeline python3 preprocessing.py

@@ -1,0 +1,34 @@
+name: CI Build and Run
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: actions/setup-docker@v2
+        with:
+          docker-version: '20.10.7'  # Specify the desired Docker version
+
+      - name: Build Docker image
+        run: |
+          docker build -t my_trainning_pipeline .
+        working-directory: path/to/your/dockerfile/directory
+
+      - name: Run Python scripts in Docker image
+        run: |
+          # Run your Python scripts or commands within the Docker container
+          docker container exec my_trainning_pipeline python3 preprocessing.py
+          docker container exec my_trainning_pipeline python3 train.py
+          docker container exec my_trainning_pipeline python3 test.py
+
+        
+

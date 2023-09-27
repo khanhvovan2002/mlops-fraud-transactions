@@ -11,22 +11,27 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
 
       - name: Set up Docker
-        uses: docker/setup-buildx-action@v1
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
         with:
-          version: 20.10.7  # Specify the desired Docker version
+          docker-version: '20.10.7'  # Specify the desired Docker version
 
       - name: Build Docker image
         run: |
-          docker build -t my_training_pipeline .
+          docker build -t my_trainning_pipeline .
 
       - name: Run Python scripts in Docker image
         run: |
           # Run your Python scripts or commands within the Docker container
-          docker container run my_training_pipeline python3 preprocessing.py
-          docker container run my_training_pipeline python3 train.py
-          docker container run my_training_pipeline python3 test.py
+          docker container exec my_trainning_pipeline python3 preprocessing.py
+          docker container exec my_trainning_pipeline python3 train.py
+          docker container exec my_trainning_pipeline python3 test.py
 
           # Add more script executions as needed
+

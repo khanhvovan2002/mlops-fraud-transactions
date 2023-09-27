@@ -30,5 +30,6 @@ jobs:
           docker container exec my_trainning_pipeline python3 train.py
           docker container exec my_trainning_pipeline python3 test.py
 
-        
+          # Add more script executions as needed
+        working-directory: ../
 

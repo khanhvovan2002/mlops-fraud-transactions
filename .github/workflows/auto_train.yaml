@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
 
       - name: Set up Docker
-        uses: actions/setup-docker@v2
+        uses: actions/setup-docker@v1
         with:
           docker-version: '20.10.7'  # Specify the desired Docker version
 
@@ -31,5 +31,5 @@ jobs:
           docker container exec my_trainning_pipeline python3 test.py
 
           # Add more script executions as needed
-        working-directory: ../
+        working-directory: .. ../
 

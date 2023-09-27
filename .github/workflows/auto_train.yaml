@@ -1,37 +1,36 @@
-name: CI Build and Run
+name: Docker Image CI
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build-and-run:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
-
-      - name: Set up Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get -y install docker.io
-          sudo systemctl start docker
-          sudo systemctl enable docker
-        with:
-          docker-version: '20.10.7'  # Specify the desired Docker version
+        uses: actions/checkout@v3
 
       - name: Build Docker image
         run: |
-          docker build -t my_trainning_pipeline .
+          docker build . -f Dockerfile -t my-image-name:$(date +%s)
 
-      - name: Run Python scripts in Docker image
+      - name: Create and start Docker container
         run: |
-          # Run your Python scripts or commands within the Docker container
-          docker container exec my_trainning_pipeline python3 preprocessing.py
-          docker container exec my_trainning_pipeline python3 train.py
-          docker container exec my_trainning_pipeline python3 test.py
+          docker run --name my_training_pipeline -d my-image-name:$(date +%s)
 
-          # Add more script executions as needed
+      - name: Run Python scripts in Docker container
+        run: |
+          docker exec my_training_pipeline python3 preprocessing.py
+          docker exec my_training_pipeline python3 train.py
+          docker exec my_training_pipeline python3 test.py
 
+      - name: Stop and remove Docker container
+        run: |
+          docker stop my_training_pipeline
+          docker rm my_training_pipeline

@@ -15,7 +15,9 @@ ENV PROCESSED_DATA_DIR=/home/jovyan/processed_data
 ENV MODEL_DIR=/home/jovyan/model
 ENV RESULTS_DIR=/home/jovyan/results
 ENV RAW_DATA_FILE=adult.csv
-
+ENV DATABRICKS_HOST =https://community.cloud.databricks.com
+ENV DATABRICKS_USERNAME=micolp20022@gmail.com
+ENV DATABRICKS_PASSWORD=Khanhvovan2002@
 
 COPY adult.csv ./raw_data/adult.csv
 COPY preprocessing.py ./preprocessing.py

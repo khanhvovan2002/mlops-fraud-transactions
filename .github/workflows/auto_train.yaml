@@ -24,13 +24,7 @@ jobs:
         run: |
           docker run --name my_training_pipeline -d my-image-name
 
-      - name: Configure Databricks
-        run: |
-          docker exec my_training_pipeline echo "[DEFAULT]
-          host = https://community.cloud.databricks.com/
-          username = micolp20022@gmail.com
-          password = Khanhvovan2002@" > ~/.databrickscfg
-
+      
       - name: Run Python scripts in Docker container
         run: |
           docker exec my_training_pipeline python3 preprocessing.py

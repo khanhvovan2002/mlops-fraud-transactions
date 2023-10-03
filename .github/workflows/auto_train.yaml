@@ -26,7 +26,6 @@ jobs:
 
       - name: Configure Databricks
         run: |
-          docker exec my_training_pipeline databricks configure
           docker exec my_training_pipeline echo "[DEFAULT]
           host = https://community.cloud.databricks.com/
           username = micolp20022@gmail.com

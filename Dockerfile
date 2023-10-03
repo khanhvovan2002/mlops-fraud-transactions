@@ -3,6 +3,7 @@ FROM jupyter/scipy-notebook
 RUN pip install joblib
 RUN pip install mlflow 
 RUN pip install databricks-cli==0.8.7
+
 USER root
 RUN apt-get update && apt-get install -y jq
 

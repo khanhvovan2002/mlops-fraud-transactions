@@ -3,7 +3,10 @@ FROM jupyter/scipy-notebook
 RUN pip install joblib
 RUN pip install mlflow 
 RUN pip install databricks-cli==0.8.7
-RUN echo "[DEFAULT] host = https://community.cloud.databricks.com/ username = micolp20022@gmail.com password = Khanhvovan2002@" > ~/.databrickscfg
+RUN echo "[DEFAULT]" >> ~/.databrickscfg 
+RUN echo "host = https://community.cloud.databricks.com/">> ~/.databrickscfg 
+RUN echo "username = micolp20022@gmail.com">> ~/.databrickscfg
+RUN echo "password = Khanhvovan2002@" >> ~/.databrickscfg
 RUN cat ~/.databrickscfg
 USER root
 RUN apt-get update && apt-get install -y jq

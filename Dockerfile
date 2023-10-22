@@ -15,10 +15,12 @@ RUN mkdir model raw_data processed_data results
 
 
 ENV RAW_DATA_DIR_1='https://s3.wasabisys.com/iguazio/data/fraud-demo-mlrun-fs-docs/data.csv'
+# ENV RAW_DATA_DIR_2='https://s3.wasabisys.com/iguazio/data/fraud-demo-mlrun-fs-docs/events.csv'
+
 ENV PROCESSED_DATA_DIR=/home/jovyan/processed_data
 ENV MODEL_DIR=/home/jovyan/model
 ENV RESULTS_DIR=/home/jovyan/results
-ENV RAW_DATA_FILE=adult.csv
+# ENV RAW_DATA_FILE=adult.csv
 
 
 COPY adult.csv ./raw_data/adult.csv

@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y jq
 RUN mkdir model raw_data processed_data results
 
 
-ENV RAW_DATA_DIR=/home/jovyan/raw_data
+ENV RAW_DATA_DIR_1='https://s3.wasabisys.com/iguazio/data/fraud-demo-mlrun-fs-docs/data.csv'
 ENV PROCESSED_DATA_DIR=/home/jovyan/processed_data
 ENV MODEL_DIR=/home/jovyan/model
 ENV RESULTS_DIR=/home/jovyan/results

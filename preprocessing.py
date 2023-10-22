@@ -4,14 +4,14 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 # Set path for the input
-RAW_DATA_DIR_1 = os.environ["RAW_DATA_DIR_1"]
-RAW_DATA_DIR_2 = os.environ["RAW_DATA_DIR_1"]
+RAW_DATA_DIR = os.environ["RAW_DATA_DIR_1"]
+# RAW_DATA_DIR_2 = os.environ["RAW_DATA_DIR_1"]
 
 # RAW_DATA_FILE = os.environ["RAW_DATA_FILE"]
-raw_data_path = os.path.join(RAW_DATA_DIR, RAW_DATA_FILE)
+# raw_data_path = os.path.join(RAW_DATA_DIR, RAW_DATA_FILE)
 
 # Read dataset
-transactions_data = pd.read_csv(RAW_DATA_DIR_1,  parse_dates=['timestamp'])
+transactions_data = pd.read_csv(RAW_DATA_DIR,  parse_dates=['timestamp'])
 # user_events_data = pd.read_csv(RAW_DATA_DIR_2,index_col=0, quotechar="\'", parse_dates=['timestamp'])
 #preproccessing
 transactions_data['month']= transactions_data.timestamp.dt.month

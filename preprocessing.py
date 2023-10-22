@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 
 # Set path for the input
 RAW_DATA_DIR = os.environ["RAW_DATA_DIR_1"]
-# RAW_DATA_DIR_2 = os.environ["RAW_DATA_DIR_1"]
+# RAW_DATA_DIR_2 = os.environ["RAW_DATA_DIR_1"]s
 
 # RAW_DATA_FILE = os.environ["RAW_DATA_FILE"]
 # raw_data_path = os.path.join(RAW_DATA_DIR, RAW_DATA_FILE)
@@ -41,10 +41,10 @@ df = df_encoded.drop(columns = ['month', 'hour'])
 scaler = StandardScaler()
 # X, y = df.drop(columns=['fraud']), df['fraud']
 
-X = scaler.fit_transform(X)
+X = scaler.fit_transform(df)
 
 # Split the dataset into training and testing sets
-train, test = train_test_split(data, test_size=0.3, stratify=X['fraud'])
+train, test = train_test_split(data, test_size=0.3, stratify=df['fraud'])
 
 # Set path to the outputs
 PROCESSED_DATA_DIR = os.environ["PROCESSED_DATA_DIR"]

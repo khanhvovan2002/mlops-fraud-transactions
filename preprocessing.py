@@ -12,7 +12,7 @@ raw_data_path = os.path.join(RAW_DATA_DIR, RAW_DATA_FILE)
 
 # Read dataset
 transactions_data = pd.read_csv(RAW_DATA_DIR_1,  parse_dates=['timestamp'])
-user_events_data = pd.read_csv(RAW_DATA_DIR_2,index_col=0, quotechar="\'", parse_dates=['timestamp'])
+# user_events_data = pd.read_csv(RAW_DATA_DIR_2,index_col=0, quotechar="\'", parse_dates=['timestamp'])
 #preproccessing
 transactions_data['month']= transactions_data.timestamp.dt.month
 transactions_data['hour']= transactions_data.timestamp.dt.hour

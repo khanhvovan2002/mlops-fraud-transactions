@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 # Set path for the input
 RAW_DATA_DIR = os.environ["RAW_DATA_DIR_1"]

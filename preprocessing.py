@@ -44,7 +44,7 @@ transactions_data['hour']= transactions_data.timestamp.dt.hour
 # X = scaler.fit_transform(df)
 
 # Split the dataset into training and testing sets
-train, test = train_test_split(transactions_data, test_size=0.3, stratify=df['fraud'])
+train, test = train_test_split(transactions_data, test_size=0.3, stratify=transactions_data['fraud'])
 
 # Set path to the outputs
 PROCESSED_DATA_DIR = os.environ["PROCESSED_DATA_DIR"]

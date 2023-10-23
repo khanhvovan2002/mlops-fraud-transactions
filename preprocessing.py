@@ -41,10 +41,10 @@ df = df_encoded.drop(columns = ['month', 'hour'])
 scaler = StandardScaler()
 # X, y = df.drop(columns=['fraud']), df['fraud']
 
-X = scaler.fit_transform(df)
+# X = scaler.fit_transform(df)
 
 # Split the dataset into training and testing sets
-train, test = train_test_split(data, test_size=0.3, stratify=df['fraud'])
+train, test = train_test_split(df, test_size=0.3, stratify=df['fraud'])
 
 # Set path to the outputs
 PROCESSED_DATA_DIR = os.environ["PROCESSED_DATA_DIR"]

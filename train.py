@@ -16,11 +16,11 @@ train_data_file = 'train.csv'
 train_data_path = os.path.join(PROCESSED_DATA_DIR, train_data_file)
 
 # Read data
-df = pd.read_csv(train_data_path, sep=",")
+df = pd.read_csv(train_data_path)
 
 # Split data into dependent and independent variables
-X_train = df.drop('income', axis=1)
-y_train = df['income']
+X_train = df.drop('fraud', axis=1)
+y_train = df['fraud']
 
 # Model 
 logit_model = LogisticRegression(max_iter=10000)

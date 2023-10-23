@@ -24,6 +24,7 @@ X_train = df.drop('fraud', axis=1)
 df_cleaned = X_train.dropna()
 df_drop = df_cleaned.drop(columns = ['source','target','device','zipcodeOri','zipMerchant'])
 category_columns = df_drop.select_dtypes(include=['object']).columns
+print(df_drop)
 df_encoded = pd.get_dummies(df_drop, columns=category_columns)
 C = 2*np.pi/12
 C_ = 2*np.pi/24

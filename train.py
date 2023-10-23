@@ -5,7 +5,8 @@ from joblib import dump
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.linear_model import LogisticRegression
 import mlflow
-
+import numpy as np
+from sklearn.preprocessing import StandardScaler
 # Set MLflow tracking URI
 mlflow.set_tracking_uri("databricks")
 mlflow.set_experiment("/Users/micolp20022@gmail.com/fraud-model")
@@ -20,8 +21,25 @@ df = pd.read_csv(train_data_path)
 
 # Split data into dependent and independent variables
 X_train = df.drop('fraud', axis=1)
-y_train = df['fraud']
+df_cleaned = X_train.dropna()
+df_drop = df_cleaned.drop(columns = ['source','target','device','zipcodeOri','zipMerchant'])
+category_columns = df_drop.select_dtypes(include=['object']).columns
+df_encoded = pd.get_dummies(df_drop, columns=category_columns)
+C = 2*np.pi/12
+C_ = 2*np.pi/24
+# Map month to the unit circle.
+df_encoded["month_sin"] = np.sin(df_encoded['month']*C)
+df_encoded["month_cos"] = np.cos(df_encoded['month']*C)
+df_encoded.timestamp = df_encoded.timestamp.values.astype(np.int64) // 10 ** 6
+df_encoded['hour_sin']=np.sin(df_encoded['hour']*C)
+df_encoded['hour_cos']=np.cos(df_encoded['hour']*C)
+df = df_encoded.drop(columns = ['month', 'hour'])
 
+
+scaler = StandardScaler()
+
+y_train = df['fraud']
+X_train = scaler(df)
 # Model 
 logit_model = LogisticRegression(max_iter=10000)
 logit_model = logit_model.fit(X_train, y_train)

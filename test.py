@@ -22,13 +22,27 @@ test_data_path = os.path.join(PROCESSED_DATA_DIR, test_data_file)
 logit_model = load(model_path)
 
 # Load data
-df = pd.read_csv(test_data_path, sep=",")
+df = pd.read_csv(test_data_path)
+X_train = df.drop('fraud', axis=1)
+df_cleaned = X_train.dropna()
+df_drop = df_cleaned.drop(columns = ['source','target','device','zipcodeOri','zipMerchant'])
+category_columns = df_drop.select_dtypes(include=['object']).columns
+df_encoded = pd.get_dummies(df_drop, columns=category_columns)
+C = 2*np.pi/12
+C_ = 2*np.pi/24
+# Map month to the unit circle.
+df_encoded["month_sin"] = np.sin(df_encoded['month']*C)
+df_encoded["month_cos"] = np.cos(df_encoded['month']*C)
+df_encoded.timestamp = df_encoded.timestamp.values.astype(np.int64) // 10 ** 6
+df_encoded['hour_sin']=np.sin(df_encoded['hour']*C)
+df_encoded['hour_cos']=np.cos(df_encoded['hour']*C)
+df = df_encoded.drop(columns = ['month', 'hour'])
 
 
-# Split data into dependent and independent variables
-X_test = df.drop('income', axis=1)
-y_test = df['income']
+scaler = StandardScaler()
 
+y_train = df['fraud']
+X_train = scaler(df)
 # Predict
 logit_predictions = logit_model.predict(X_test)
 

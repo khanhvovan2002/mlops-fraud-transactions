@@ -3,7 +3,9 @@ from joblib import load
 import json
 import os
 import numpy as np 
+import numpy
 from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import StandardScaler
 
 
 # Set path for the input (model)
@@ -30,7 +32,7 @@ category_columns = df_drop.select_dtypes(include=['object']).columns
 df_encoded = pd.get_dummies(df_drop, columns=category_columns)
 C = 2*np.pi/12
 C_ = 2*np.pi/24
-# Map month to the unit circle.
+# Map month to the unit circle.scscs
 df_encoded["month_sin"] = np.sin(df_encoded['month']*C)
 df_encoded["month_cos"] = np.cos(df_encoded['month']*C)
 df_encoded.timestamp = df_encoded.timestamp.values.astype(np.int64) // 10 ** 6
@@ -41,8 +43,8 @@ df = df_encoded.drop(columns = ['month', 'hour'])
 
 scaler = StandardScaler()
 
-y_train = df['fraud']
-X_train = scaler(df)
+y_test = df['fraud']
+X_test = scaler(df)
 # Predict
 logit_predictions = logit_model.predict(X_test)
 

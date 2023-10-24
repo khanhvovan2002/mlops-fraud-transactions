@@ -12,39 +12,35 @@ mlflow.set_tracking_uri("databricks")
 mlflow.set_experiment("/Users/micolp20022@gmail.com/fraud-model")
 
 # Set path to inputs
-# PROCESSED_DATA_DIR = os.environ["PROCESSED_DATA_DIR"]
-# train_data_file = 'train.csv'
-# train_data_path = os.path.join(PROCESSED_DATA_DIR, train_data_file)
+PROCESSED_DATA_DIR = os.environ["PROCESSED_DATA_DIR"]
+train_data_file = 'train.csv'
+train_data_path = os.path.join(PROCESSED_DATA_DIR, train_data_file)
 
 # Read data
-transactions_data = pd.read_csv('https://s3.wasabisys.com/iguazio/data/fraud-demo-mlrun-fs-docs/data.csv', parse_dates=['timestamp'])
-transactions_data['month']= transactions_data.timestamp.dt.month
-transactions_data['hour']= transactions_data.timestamp.dt.hour
+transactions_data = pd.read_csv(train_data_path)
 # Split data into dependent and independent variables
 X_train = transactions_data.drop('fraud', axis=1)
-df_cleaned = X_train.dropna()
-df_drop = df_cleaned.drop(columns = ['source','target','device','zipcodeOri','zipMerchant'])
-category_columns = df_drop.select_dtypes(include=['object']).columns
-print(category_columns)
-print(df_drop)
-df_encoded = pd.get_dummies(df_drop, columns=category_columns)
-C = 2*np.pi/12
-C_ = 2*np.pi/24
-# Map month to the unit circle.
-df_encoded["month_sin"] = np.sin(df_encoded['month']*C)
-df_encoded["month_cos"] = np.cos(df_encoded['month']*C)
-df_encoded.timestamp = df_encoded.timestamp.values.astype(np.int64) // 10 ** 6
-df_encoded['hour_sin']=np.sin(df_encoded['hour']*C)
-df_encoded['hour_cos']=np.cos(df_encoded['hour']*C)
-df = df_encoded.drop(columns = ['month', 'hour'])
+# df_cleaned = X_train.dropna()
+# df_drop = df_cleaned.drop(columns = ['source','target','device','zipcodeOri','zipMerchant'])
+# category_columns = df_drop.select_dtypes(include=['object']).columns
+# df_encoded = pd.get_dummies(df_drop, columns=category_columns)
+# C = 2*np.pi/12
+# C_ = 2*np.pi/24
+# # Map month to the unit circle.
+# df_encoded["month_sin"] = np.sin(df_encoded['month']*C)
+# df_encoded["month_cos"] = np.cos(df_encoded['month']*C)
+# df_encoded.timestamp = df_encoded.timestamp.values.astype(np.int64) // 10 ** 6
+# df_encoded['hour_sin']=np.sin(df_encoded['hour']*C)
+# df_encoded['hour_cos']=np.cos(df_encoded['hour']*C)
+# df = df_encoded.drop(columns = ['month', 'hour'])
 
 
 scaler = StandardScaler()
 
 y_train = transactions_data['fraud']
-X_train = scaler.fit_transform(df)
+X_train = scaler.fit_transform(X_train)
 # Model 
-logit_model = LogisticRegression(max_iter=10000)
+logit_model = LogisticRegression(max_iter=100)
 logit_model = logit_model.fit(X_train, y_train)
 
 # Cross validation
@@ -60,7 +56,7 @@ train_metadata = {
 with mlflow.start_run():
 
     # Log parameters
-    mlflow.log_param("max_iter", 10000)
+    mlflow.log_param("max_iter", 100)
 
     # Log the model
     mlflow.sklearn.log_model(logit_model, "logit_model")

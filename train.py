@@ -19,7 +19,7 @@ train_data_path = os.path.join(PROCESSED_DATA_DIR, train_data_file)
 # Read data
 transactions_data = pd.read_csv(train_data_path)
 # Split data into dependent and independent variables
-X_train = transactions_data.drop('fraud', axis=1)
+# X_train_ = transactions_data.drop('fraud', axis=1)
 # df_cleaned = X_train.dropna()
 # df_drop = df_cleaned.drop(columns = ['source','target','device','zipcodeOri','zipMerchant'])
 # category_columns = df_drop.select_dtypes(include=['object']).columns
@@ -38,7 +38,7 @@ X_train = transactions_data.drop('fraud', axis=1)
 scaler = StandardScaler()
 
 y_train = transactions_data['fraud']
-X_train = scaler.fit_transform(X_train)
+X_train = scaler.fit_transform(transactions_data.drop('fraud', axis=1))
 # Model 
 logit_model = LogisticRegression(max_iter=100)
 logit_model = logit_model.fit(X_train, y_train)

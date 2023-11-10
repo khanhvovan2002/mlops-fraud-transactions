@@ -56,7 +56,7 @@ train_metadata = {
 with mlflow.start_run():
 
     # Log parameters
-    mlflow.log_param("max_iter", 100)
+    mlflow.log_param("max_iter", 10)
 
     # Log the model
     mlflow.sklearn.log_model(logit_model, "logit_model")

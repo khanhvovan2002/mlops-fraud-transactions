@@ -7,7 +7,6 @@ from sklearn.linear_model import LogisticRegression
 import mlflow
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-import time
 # Set MLflow tracking URI
 mlflow.set_tracking_uri("databricks")
 mlflow.set_experiment("/Users/micolp20022@gmail.com/fraud-model")
@@ -60,11 +59,7 @@ with mlflow.start_run():
     mlflow.log_param("max_iter", 10)
 
     # Log the model
-    # Log the model with a timestamp in the model name
-    timestamp = time.strftime("%Y%m%d_%H%M%S")  # Generate timestamp
-    model_name_with_timestamp = f"logit_model_{timestamp}.joblib"
-    mlflow.sklearn.log_model(logit_model, model_name_with_timestamp)
-    # mlflow.sklearn.log_model(logit_model, "logit_model")
+    mlflow.sklearn.log_model(logit_model, "logit_model")
 
     # Log validation accuracy
     mlflow.log_metric("validation_acc", val_logit)

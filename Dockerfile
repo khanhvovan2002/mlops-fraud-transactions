@@ -1,7 +1,8 @@
 FROM jupyter/scipy-notebook
-
+RUN pip install neptune
 RUN pip install joblib
 RUN pip install mlflow 
+RUN pip install xgboost
 RUN pip install databricks-cli==0.8.7
 RUN echo "[DEFAULT]" >> ~/.databrickscfg 
 RUN echo "host= https://community.cloud.databricks.com/">> ~/.databrickscfg 

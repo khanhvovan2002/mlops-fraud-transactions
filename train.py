@@ -49,7 +49,7 @@ xgb_params = {
     'max_depth': 4,
     'learning_rate': 0.1,
     'n_estimators': 100,
-    'subsample': 0.8,
+    'subsample': 0.7,
     'colsample_bytree': 0.8,
     'objective': 'binary:logistic',
     'eval_metric': 'logloss'

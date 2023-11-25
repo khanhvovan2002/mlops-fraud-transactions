@@ -46,7 +46,7 @@ X_train = scaler.fit_transform(transactions_data.drop('fraud', axis=1))
 # Model 
 # Specify XGBoost parameters
 xgb_params = {
-    'max_depth': 3,
+    'max_depth': 4,
     'learning_rate': 0.1,
     'n_estimators': 100,
     'subsample': 0.8,

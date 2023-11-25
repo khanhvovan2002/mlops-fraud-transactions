@@ -41,18 +41,18 @@ scaler = StandardScaler()
 y_train = transactions_data['fraud']
 X_train = scaler.fit_transform(transactions_data.drop('fraud', axis=1))
 # Model 
-logit_model = LogisticRegression(max_iter=100)
+logit_model = LogisticRegression(max_iter=10)
 logit_model = logit_model.fit(X_train, y_train)
 
 # Cross validation
 cv = StratifiedKFold(n_splits=3) 
 val_logit = cross_val_score(logit_model, X_train, y_train, cv=cv).mean()
+val_f1 = cross_val_score(logit_model, X_train, y_train, cv=cv, scoring = 'f1').mean()
 
 # Validation accuracy to JSON
 train_metadata = {
     'validation_acc': val_logit,
-        'f1_score': val_f1
-
+    'validation_f1':val_f1
 }
 
 # Start an MLflow run

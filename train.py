@@ -50,7 +50,9 @@ val_logit = cross_val_score(logit_model, X_train, y_train, cv=cv).mean()
 
 # Validation accuracy to JSON
 train_metadata = {
-    'validation_acc': val_logit
+    'validation_acc': val_logit,
+        'f1_score': val_f1
+
 }
 
 # Start an MLflow run

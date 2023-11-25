@@ -66,8 +66,8 @@ feature_importance_plot_path = "feature_importance_plot.png"
 plt.savefig(feature_importance_plot_path)
 # Cross validation
 cv = StratifiedKFold(n_splits=3) 
-val_logit = cross_val_score(logit_model, X_train, y_train, cv=cv).mean()
-val_f1 = cross_val_score(logit_model, X_train, y_train, cv=cv, scoring = 'f1').mean()
+val_logit = cross_val_score(xgb_model, X_train, y_train, cv=cv).mean()
+val_f1 = cross_val_score(xgb_model, X_train, y_train, cv=cv, scoring = 'f1').mean()
 
 # Validation accuracy to JSON
 train_metadata = {

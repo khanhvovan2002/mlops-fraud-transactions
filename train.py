@@ -9,6 +9,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 import time
 from xgboost import XGBClassifier, plot_importance
+import matplotlib.pyplot as plt
 
 # Set MLflow tracking URI
 mlflow.set_tracking_uri("databricks")

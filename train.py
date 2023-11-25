@@ -86,7 +86,7 @@ with mlflow.start_run():
     # Log the model with a timestamp in the model name
     timestamp = time.strftime("%Y%m%d_%H%M%S")  # Generate timestamp
     model_name_with_timestamp = f"Xgboost_model_{timestamp}.joblib"
-    mlflow.sklearn.log_model(logit_model, model_name_with_timestamp)
+    mlflow.sklearn.log_model(xgb_model, model_name_with_timestamp)
 
     # Log validation accuracy
     mlflow.log_metric("validation_acc", val_logit)

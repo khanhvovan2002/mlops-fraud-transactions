@@ -8,6 +8,8 @@ import mlflow
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import time
+from xgboost import XGBClassifier, plot_importance
+
 # Set MLflow tracking URI
 mlflow.set_tracking_uri("databricks")
 mlflow.set_experiment("/Users/micolp20022@gmail.com/fraud-model")
@@ -41,9 +43,26 @@ scaler = StandardScaler()
 y_train = transactions_data['fraud']
 X_train = scaler.fit_transform(transactions_data.drop('fraud', axis=1))
 # Model 
-logit_model = LogisticRegression(max_iter=10)
-logit_model = logit_model.fit(X_train, y_train)
+# Specify XGBoost parameters
+xgb_params = {
+    'max_depth': 3,
+    'learning_rate': 0.1,
+    'n_estimators': 100,
+    'subsample': 0.8,
+    'colsample_bytree': 0.8,
+    'objective': 'binary:logistic',
+    'eval_metric': 'logloss'
+}
 
+# Model 
+xgb_model = XGBClassifier(**xgb_params)
+xgb_model = xgb_model.fit(X_train, y_train)
+
+# Plot and save feature importance plot
+plt.figure(figsize=(10, 6))
+plot_importance(xgb_model, importance_type='weight')
+feature_importance_plot_path = "feature_importance_plot.png"
+plt.savefig(feature_importance_plot_path)
 # Cross validation
 cv = StratifiedKFold(n_splits=3) 
 val_logit = cross_val_score(logit_model, X_train, y_train, cv=cv).mean()
@@ -60,19 +79,21 @@ with mlflow.start_run():
 
     # Log parameters
     mlflow.log_param("max_iter", 10)
+    mlflow.log_params(xgb_params)
 
     # Log the model
     # Log the model with a timestamp in the model name
     timestamp = time.strftime("%Y%m%d_%H%M%S")  # Generate timestamp
-    model_name_with_timestamp = f"logit_model_{timestamp}.joblib"
+    model_name_with_timestamp = f"Xgboost_model_{timestamp}.joblib"
     mlflow.sklearn.log_model(logit_model, model_name_with_timestamp)
-    # mlflow.sklearn.log_model(logit_model, "logit_model")
 
     # Log validation accuracy
     mlflow.log_metric("validation_acc", val_logit)
+    mlflow.log_metric("f1_score", val_f1)
 
     # Log metadata
     mlflow.log_params(train_metadata)
+    mlflow.log_artifact(feature_importance_plot_path)
 
 # Set path to output (model)
 MODEL_DIR = os.environ["MODEL_DIR"]

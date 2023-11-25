@@ -17,14 +17,12 @@ transactions_data = pd.read_csv(RAW_DATA_DIR,  parse_dates=['timestamp'])
 #preproccessing
 transactions_data['month']= transactions_data.timestamp.dt.month
 transactions_data['hour']= transactions_data.timestamp.dt.hour
-# fraud_data = transactions_data.loc[transactions_data['fraud'] == 1]
-# non_fraud_data = transactions_data.loc[transactions_data['fraud'] == 0]
+fraud_data = transactions_data.loc[transactions_data['fraud'] == 1]
+non_fraud_data = transactions_data.loc[transactions_data['fraud'] == 0]
 df_cleaned = transactions_data.dropna()
-train, test = train_test_split(df_cleaned, test_size=0.3, stratify=df_cleaned['fraud'])
-
-train_drop = train.drop(columns = ['source','target','device','zipcodeOri','zipMerchant'])
-category_columns = train_drop.select_dtypes(include=['object']).columns
-df_encoded = pd.get_dummies(train_drop, columns=category_columns)
+df_drop = df_cleaned.drop(columns = ['source','target','device','zipcodeOri','zipMerchant'])
+category_columns = df_drop.select_dtypes(include=['object']).columns
+df_encoded = pd.get_dummies(df_drop, columns=category_columns)
 C = 2*np.pi/12
 C_ = 2*np.pi/24
 # Map month to the unit circle.
@@ -44,7 +42,7 @@ df = df_encoded.drop(columns = ['month', 'hour'])
 # X = scaler.fit_transform(df)
 
 # Split the dataset into training and testing sets
-# train, test = train_test_split(df, test_size=0.3, stratify=df['fraud'])
+train, test = train_test_split(df, test_size=0.3, stratify=df['fraud'])
 
 # Set path to the outputs
 PROCESSED_DATA_DIR = os.environ["PROCESSED_DATA_DIR"]
@@ -52,5 +50,5 @@ train_path = os.path.join(PROCESSED_DATA_DIR, 'train.csv')
 test_path = os.path.join(PROCESSED_DATA_DIR, 'test.csv')
 
 # Save csv
-df.to_csv(train_path, index=False)
+train.to_csv(train_path, index=False)
 test.to_csv(test_path,  index=False)

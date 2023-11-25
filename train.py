@@ -98,11 +98,11 @@ with mlflow.start_run():
 
 # Set path to output (model)
 MODEL_DIR = os.environ["MODEL_DIR"]
-model_name = 'logit_model.joblib'
+model_name = 'xgboost.joblib'
 model_path = os.path.join(MODEL_DIR, model_name)
 
 # Serialize and save model
-dump(logit_model, model_path)
+dump(xgb_model, model_path)
 
 # Set path to output (metadata)
 RESULTS_DIR = os.environ["RESULTS_DIR"]
